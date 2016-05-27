@@ -104,7 +104,12 @@
                  * Type: any type moment can parse
                  * If filled will disable all days after this one (not included)
                  * */
-                disableDaysAfter: '=?'
+                disableDaysAfter: '=?',
+                /*
+                 * Type: function(day, cellNotEmpty)
+                 * If given, the returned HTML will be bound after the number, as a separated div
+                 * */
+                customContentFunction: '=?'
             },
             template: '<div class="multiple-date-picker">' +
             '<div class="picker-top-row">' +
@@ -116,7 +121,7 @@
             '<div class="text-center" ng-repeat="day in daysOfWeek">{{day}}</div>' +
             '</div>' +
             '<div class="picker-days-row">' +
-            '<div class="text-center picker-day {{!day.mdp.otherMonth || showDaysOfSurroundingMonths ? day.css : \'\'}} {{day.mdp.otherMonth ? cssDaysOfSurroundingMonths : \'\'}}" title="{{day.title}}" ng-repeat="day in days" ng-click="toggleDay($event, day)" ng-mouseover="hoverDay($event, day)" ng-mouseleave="dayHover($event, day)" ng-class="{\'picker-selected\':day.mdp.selected, \'picker-off\':!day.selectable, \'today\':day.mdp.today,\'past\':day.mdp.past,\'future\':day.mdp.future, \'picker-other-month\':day.mdp.otherMonth}">{{day ? day.mdp.otherMonth && !showDaysOfSurroundingMonths ? \'&nbsp;\' : day.date.format(\'D\') : \'\'}}</div>' +
+            '<div class="text-center picker-day {{!day.mdp.otherMonth || showDaysOfSurroundingMonths ? day.css : \'\'}} {{day.mdp.otherMonth ? cssDaysOfSurroundingMonths : \'\'}}" title="{{day.title}}" ng-repeat="day in days" ng-click="toggleDay($event, day)" ng-mouseover="hoverDay($event, day)" ng-mouseleave="dayHover($event, day)" ng-class="{\'picker-selected\':day.mdp.selected, \'picker-off\':!day.selectable, \'today\':day.mdp.today,\'past\':day.mdp.past,\'future\':day.mdp.future, \'picker-other-month\':day.mdp.otherMonth}">{{day ? day.mdp.otherMonth && !showDaysOfSurroundingMonths ? \'&nbsp;\' : day.date.format(\'D\') : \'\'}}<div ng-if="customContentFunction" class="custom-content" ng-bind-html="customContentFunction(day,day && !(day.mdp.otherMonth && !showDaysOfSurroundingMonths)) "></div></div>' +
             '</div>' +
             '</div>',
             link: function (scope) {
